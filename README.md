@@ -4,7 +4,7 @@ OSINT Threat Intel Interface
 Named after the old Norse God of knowledge.
 
 ## About
-I had the idea to write an OSINT Threat Intel tool that functions as a CLI to HoneyDB if you don't know what HoneyDB is. It's a sort of aggregative open source intelligence platform. Basically it collects a bunch of info from HoneyPy Honeypots in order to learn about malicious hosts, top attacked services and more. More information [https://riskdiscovery.com/honeydb/#about][here]. 
+I had the idea to write an OSINT Threat Intel tool that functions as a CLI to HoneyDB if you don't know what HoneyDB is. It's a sort of aggregative open source intelligence platform. Basically it collects a bunch of info from HoneyPy Honeypots in order to learn about malicious hosts, top attacked services and more. More information [here](https://riskdiscovery.com/honeydb/#about). 
 
 The idea of my tool is to make it easier for the pentester/researcher/InfoSec pro to access this information and do something meaningful with it. To that end i have included in script WHOIS lookup and the ability to invoke an Nmap scan on a provided host.
 
@@ -25,6 +25,6 @@ Mechanize
 Selenium (For data visualization in a browser environment)
 pprint
 ```
-If you're interested in the devlopment of this tool i would encourage you to submit [https://github.com/NullArray/Mimir/pulls][a pull request] or suggestion [https://github.com/NullArray/Mimir/issues][by opening a ticket].
+If you're interested in the devlopment of this tool i would encourage you to submit [a pull request](https://github.com/NullArray/Mimir/pulls) or suggestion [by opening a ticket](https://github.com/NullArray/Mimir/issues).
 
 Thanks.
