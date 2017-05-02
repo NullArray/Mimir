@@ -8,7 +8,7 @@ I had the idea to write an OSINT Threat Intel tool that functions as a CLI to Ho
 
 The idea of my tool is to make it easier for the pentester/researcher/InfoSec pro to access this information and do something meaningful with it. To that end i have included in script WHOIS lookup and the ability to invoke an Nmap scan on a provided host.
 
-## Active Development & Known issue
+## Active Development, Known Issue
 With the API we are able to retrieve the threat feed and bad host list as well. The program would allow you to retrieve this data easily and save it for further processing and/or investigation. But herein lies a problem. The project is written in Python 2.7, the built in SSL lib in Python 2.7 does not support the SSL version HoneyDB runs. And as far as i can see there isn't a particularly viable work-around. I have the full source posted in the repo and have commented out the monkey patch i have tried, it attempts to overwrite some functionality of the SSL lib but unfortunately i have been unable to get it to work properly.
 
 I figured since the end product would be open source i might as well post the project as is and hopefully open source a solution to this problem as well.
