@@ -25,6 +25,6 @@ Mechanize
 Selenium (For data visualization in a browser environment)
 pprint
 ```
-If you're interested in the devlopment of this tool i would encourage you to submit [a pull request](https://github.com/NullArray/Mimir/pulls) or suggestion [by opening a ticket](https://github.com/NullArray/Mimir/issues).
+If you're interested in the develpopment of this tool i would encourage you to submit [a pull request](https://github.com/NullArray/Mimir/pulls) or suggestion [by opening a ticket](https://github.com/NullArray/Mimir/issues).
 
 Thanks.
