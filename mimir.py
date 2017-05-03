@@ -131,7 +131,7 @@ try:
 			
 			print format
 			
-			print "Results saved to 'feed.log' in the current directory"
+			#print "Results saved to 'feed.log' in the current directory"
 			
 		elif option =='2':
 			c.setopt(pycurl.URL, "https://riskdiscovery.com/honeydb/api/bad-hosts")
