@@ -1,5 +1,7 @@
 #!/bin/bash
 
+# rebuilds PyCurl to work with OpenSSL
+
 # we will add some colored headers that make it easier to find obstacles 
 # in the terminal output (which will be > 1000 lines...)
 ESC="\x1b["
