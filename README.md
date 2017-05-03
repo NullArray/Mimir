@@ -8,23 +8,16 @@ I had the idea to write an OSINT Threat Intel tool that functions as a CLI to Ho
 
 The idea of my tool is to make it easier for the pentester/researcher/InfoSec pro to access this information and do something meaningful with it. To that end i have included in script WHOIS lookup and the ability to invoke an Nmap scan on a provided host.
 
-## Active Development, Known Issue
-With the API we are able to retrieve the threat feed and bad host list as well. The program would allow you to retrieve this data easily and save it for further processing and/or investigation. But herein lies a problem. The project is written in Python 2.7, the built in SSL lib in Python 2.7 does not support the SSL version HoneyDB runs. And as far as i can see there isn't a particularly viable work-around. I have the full source posted in the repo and have commented out the monkey patch i have tried, it attempts to overwrite some functionality of the SSL lib but unfortunately i have been unable to get it to work properly.
+## Active Development
 
-I figured since the end product would be open source i might as well post the project as is and hopefully open source a solution to this problem as well.
+The previous version of Mimir used the Mechanize lib to retrieve the Threat Feed and Bad Host list. Unfortunately there were some issues with the SSL implementation of Python2.7 with regards to mechanize. Therefore i have opted to use Pycurl instead.
 
-### Note
-Since the program depends on a lot of external modules using tools like 2to3 seems inviable, also because there is no equivalent that i know of for Mechanize in Python 3.
+Different versions of PyCurl work best with different versions of SSL. For this program to work properly PyCurl has to support OpenSSL. To that end i have added a shell script that automatically rebuilds PyCurl to work with OpenSSL and put further updates via `apt-get update` on hold if desired.
 
-For clarity here are the dependencies.
+### Known Issue
 
-```
-Blessings
-ipwhois
-Mechanize
-Selenium (For data visualization in a browser environment)
-pprint
-```
+The project is in active development and as of yet there is a bug in the formatting of the Threat Feed data.
+
 If you're interested in the develpopment of this tool i would encourage you to submit [a pull request](https://github.com/NullArray/Mimir/pulls) or suggestion [by opening a ticket](https://github.com/NullArray/Mimir/issues).
 
 Thanks.
