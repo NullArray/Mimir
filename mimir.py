@@ -1,8 +1,9 @@
 #!/usr/bin/env python2.7
 
-import mechanize
+import pycurl
 import pickle
 import os.path, os, sys
+import time
 
 from selenium import webdriver
 from blessings import Terminal
@@ -10,22 +11,7 @@ from ipwhois import IPWhois
 from pprint import pprint
 
 t = Terminal()
-
-
-###---ATTEMPTED MONKEY PATCH---###
-#import socket
-#import httplib
-#import ssl
-#
-#def connect(self):
-#	sock = socket.create_connection((self.host, self.port), self.timeout, self.source_address)
-#	if self._tunnel_host:
-#		self.sock = sock
-#		self._tunnel()
-#
-#	self.sock = ssl.wrap_socket(sock, self.key_file, self.cert_file, ssl_version=ssl.PROTOCOL_TLSv1)
-#
-#httplib.HTTPSConnection.connect = connect
+c = pycurl.Curl()
 
 
 print t.cyan("""
@@ -51,7 +37,7 @@ if not os.path.isfile("HDB-api-ID.p"):
 	print "[" + t.green("+") + "]Please provide your HoneyDB API key\n"
 	DB_API_KEY = raw_input("API key: ")
 	
-	pickle.dump(DB_API_ID, open( "HDB-api-key.p", "wb" ))
+	pickle.dump(DB_API_KEY, open( "HDB-api-key.p", "wb" ))
 	
 	print "[" + t.green("+") + "]Your API data has been saved to 'HDB-api-ID.p' and 'HDB-api-key.p' in the current directory.\n"
 	
@@ -99,31 +85,9 @@ def whois():
 		print "[" + t.red("!") + "]Unhandled Option.\n"
 
 
-def mech_ops(mode_f):
-	br = mechanize.Browser()
-	br.set_handle_robots(False)
-	br.addheaders = [('user-agent', 'Mozilla/5.0 (Windows NT 10.0; WOW64; rv:50.0) Gecko/20100101 Firefox/50.0'),
-	('X-HoneyDb-ApiId', DB_API_ID), ('X-HoneyDb-ApiKey', DB_API_KEY), ('accept', 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8')]
-
-	if mode_f == 1:
-		try:
-			response = br.open("https://riskdiscovery.com/honeydb/api/twitter-threat-feed")
-		except Exception as e:
-			print "\n[" + t.red("!") + "]Critical, could not open HoneyDB"
-			print "\n[" + t.green("+") + "]The following status code was recieved: "
-			print e
-	else:
-		try:
-			response = br.open("https://riskdiscovery.com/honeydb/api/bad-hosts")
-		except Exception as e:
-			print "\n[" + t.red("!") + "]Critical, could not open HoneyDB"
-			print "\n[" + t.green("+") + "]The following status code was recieved: "
-			print e
-					
-	result = response.read()
-	return result
-
-
+opts = ['X-HoneyDb-ApiId: ' + DB_API_ID, 'X-HoneyDb-ApiKey: ' + DB_API_KEY]
+c.setopt(pycurl.HTTPHEADER, (opts))
+c.setopt(pycurl.FOLLOWLOCATION, 1)
 
 try:
 	while True:
@@ -140,27 +104,43 @@ try:
 		option = raw_input("\n<" + t.cyan("MIMIR") + ">$ ")
 		
 		if option == '1':
-			option = 1
-			feed = mech_ops(option)
+			c.setopt(pycurl.URL, "https://riskdiscovery.com/honeydb/api/twitter-threat-feed")
+			feed = c.perform()
 			
-			with open( "feed.log", "ab" ) as outfile:
-				for line in feed:
-					print line
-					outfile.write(line)
+			os.system("clear")
+			print "\n\n[" + t.green("+") + "]Retrieved Threat Feed, formatting..."
+			time.sleep(1)
 			
-			outfile.close()	
+			outfile_one = open('feed.txt', 'wb')
+			c.setopt(c.WRITEDATA, outfile_one)
+			c.perform()
+			outfile_one.close()
+			
+			infile = open('feed.txt', 'r')
+			#infile.read()
+			
+			str_obj = []
+			
+			for item in infile:
+				str_obj.append(item)
+			
+			format = []
+			for x in str_obj:
+				x.split(',')
+				str_obj.append(format)
+			
+			print format
 			
 			print "Results saved to 'feed.log' in the current directory"
 			
 		elif option =='2':
-			feed = mech_ops()
+			c.setopt(pycurl.URL, "https://riskdiscovery.com/honeydb/api/bad-hosts")
+			hosts = c.perform()
 			
-			with open( "hosts.log", "ab" ):
-				for line in hosts:
-					print line
-					outfile.write(line)
+			with open( "hosts.log", "ab" ) as outfile:
+				outfile.write(hosts)
 					
-				outfile.close()
+			outfile.close()
 					
 			print "Results saved to 'hosts.log' in the current directory"
 			
