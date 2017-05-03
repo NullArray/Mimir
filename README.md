@@ -11,6 +11,15 @@ The previous version of Mimir used the Mechanize lib to retrieve the Threat Feed
 
 Different versions of PyCurl work best with different versions of SSL. For this program to work properly PyCurl has to support OpenSSL. To that end i have added a shell script that automatically rebuilds PyCurl to work with OpenSSL and put further updates via `apt-get update` on hold if desired.
 
+### Dependencies
+
+```
+pycurl
+selenium 
+blessings
+ipwhois
+pprint
+```
 ### Known Issue
 
 The project is in active development and as of yet there is a bug in the formatting of the Threat Feed data.
