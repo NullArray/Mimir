@@ -1,5 +1,6 @@
 #!/usr/bin/env python2.7
 
+# Opted to use PyCurl instead of Mechanize, if your PyCurl does not support OpenSSL, see the shell script to rebuild it in the repo
 import pycurl
 import pickle
 import os.path, os, sys
@@ -26,7 +27,7 @@ o88o  8  o88o o888o o88o  8  o88o o888o o888o  88o8
 			    Threat Intel Interface
 						   \n""")
 
-
+# Check if we have API ID/key saved
 if not os.path.isfile("HDB-api-ID.p"):
 	
 	print "[" + t.green("+") + "]Please provide your HoneyDB API ID\n"
@@ -58,7 +59,7 @@ else:
 	print "\n[" + t.green("+") + "]Your API ID was succesfully loaded from " + ID_path
 	print "[" + t.green("+") + "]Your API key was succesfully loaded from " + KEY_path
 	
-
+# WHOIS Function 
 def whois():
 	print "[" + t.green("+") + "]Please provide an IP for WHOIS lookup."
 	TARGET = raw_input("\n<" + t.cyan("WHOIS") + ">$ ")
@@ -84,7 +85,7 @@ def whois():
 	else:
 		print "[" + t.red("!") + "]Unhandled Option.\n"
 
-
+# Set options for PyCurl
 opts = ['X-HoneyDb-ApiId: ' + DB_API_ID, 'X-HoneyDb-ApiKey: ' + DB_API_KEY]
 c.setopt(pycurl.HTTPHEADER, (opts))
 c.setopt(pycurl.FOLLOWLOCATION, 1)
@@ -111,6 +112,7 @@ try:
 			print "\n\n[" + t.green("+") + "]Retrieved Threat Feed, formatting..."
 			time.sleep(1)
 			
+			# Working on formatting
 			outfile_one = open('feed.txt', 'wb')
 			c.setopt(c.WRITEDATA, outfile_one)
 			c.perform()
