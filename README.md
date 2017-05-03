@@ -24,6 +24,6 @@ pprint
 
 The project is in active development and as of yet there is a bug in the formatting of the Threat Feed data.
 
-If you're interested in the develpopment of this tool i would encourage you to submit [a pull request](https://github.com/NullArray/Mimir/pulls) or suggestion [by opening a ticket](https://github.com/NullArray/Mimir/issues).
+If you're interested in contributing to the develpopment of this tool i would encourage you to submit [a pull request](https://github.com/NullArray/Mimir/pulls) or suggestion [by opening a ticket](https://github.com/NullArray/Mimir/issues).
 
 Thanks.
