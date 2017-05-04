@@ -108,26 +108,36 @@ try:
 		
 		if option == '1':
 			c.setopt(pycurl.URL, "https://riskdiscovery.com/honeydb/api/twitter-threat-feed")
-			feed = c.perform()
+			c.setopt(c.WRITEDATA, b)
+			c.perform()
 			
 			os.system("clear")
 			print "\n\n[" + t.green("+") + "]Retrieved Threat Feed, formatting..."
 			time.sleep(1)
 			
-			response = json.dumps(b. getvalue())
+			response = json.loads(b. getvalue())
 
-			print response
+			with open('feed.log', 'ab') as outfile:
+				for item in response[0], remote_host:
+					outfile.write(item)
+					
+				outfile.close()
 			
-			#print "Results saved to 'feed.log' in the current directory"
+			print "Results saved to 'feed.log' in the current directory"
 			
 		elif option =='2':
 			c.setopt(pycurl.URL, "https://riskdiscovery.com/honeydb/api/bad-hosts")
-			hosts = c.perform()
+			c.setopt(c.WRITEDATA, b)
+			c.perform()
 			
-			with open( "hosts.log", "ab" ) as outfile:
-				outfile.write(hosts)
+			response = json.loads(b. getvalue())
+			
+
+			with open('hosts.log', 'ab') as outfile:
+				for item in response[0], remote_host:
+					outfile.write(item)
 					
-			outfile.close()
+				outfile.close()
 					
 			print "Results saved to 'hosts.log' in the current directory"
 			
