@@ -102,7 +102,7 @@ def hosts():
 			
 			
 	os.system("clear")
-	print "\n\n[" + t.green("+") + "]Retrieved Threat Feed, formatting..."
+	print "\n\n[" + t.green("+") + "]Retrieved Bad Host List, formatting..."
 	time.sleep(1)
 			
 	response_h = json.loads(b. getvalue())
