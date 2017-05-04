@@ -50,17 +50,18 @@ else:
 		DB_API_ID = pickle.load(open( "HDB-api-ID.p", "rb" ))
 		DB_API_KEY = pickle.load(open( "HDB-api-key.p", "rb" ))
 	except IOError as e:
-		print "[" + t.red("!") + "]Critical. An IO error was raised while attempting to read API data.\n"
+		print "\n[" + t.red("!") + "]Critical. An IO error was raised while attempting to read API data.\n"
 		print e 
 		
 		sys.exit(1) 
 	
 	ID_path = os.path.abspath("HDB-api-ID.p")
-	KEY_path = os.path.abspath("HDB-api-key")
+	KEY_path = os.path.abspath("HDB-api-key.p")
 	
 	print "\n[" + t.green("+") + "]Your API ID was succesfully loaded from " + ID_path
 	print "[" + t.green("+") + "]Your API key was succesfully loaded from " + KEY_path
-	
+
+
 # WHOIS function
 def whois():
 	print "[" + t.green("+") + "]Please provide an IP for WHOIS lookup."
@@ -70,13 +71,15 @@ def whois():
 	results = obj.lookup_rdap(depth=1)
 	pprint(results)
 	
-	print "[" + t.magenta("?") + "]Would you like to append the WHOIS record to a text file?\n"
+	print "\n[" + t.magenta("?") + "]Would you like to append the WHOIS record to a text file?\n"
 	logs = raw_input("[Y]es/[N]o: ")
+	
+	format = json.dumps(results, indent = 2)
 	
 	if logs == "y":
 		with open( "whois.log", "ab" ) as outfile:
 			outfile.write("Host: " + TARGET + "\n")
-			outfile.write(pprint(results))
+			outfile.write(format)
 			outfile.close()
 			
 		print "[" + t.green("+") + "]Results saved to whois.log in the current directory.\n"
@@ -87,10 +90,57 @@ def whois():
 	else:
 		print "[" + t.red("!") + "]Unhandled Option.\n"
 
-# Options for PyCurl
-opts = ['X-HoneyDb-ApiId: ' + DB_API_ID, 'X-HoneyDb-ApiKey: ' + DB_API_KEY]
-c.setopt(pycurl.HTTPHEADER, (opts))
-c.setopt(pycurl.FOLLOWLOCATION, 1)
+def hosts():
+	# Options for PyCurl
+	opts = ['X-HoneyDb-ApiId: ' + DB_API_ID, 'X-HoneyDb-ApiKey: ' + DB_API_KEY]
+	c.setopt(pycurl.HTTPHEADER, (opts))
+	c.setopt(pycurl.FOLLOWLOCATION, 1)
+	
+	c.setopt(pycurl.URL, "https://riskdiscovery.com/honeydb/api/bad-hosts")
+	c.setopt(c.WRITEDATA, b)
+	c.perform()
+			
+			
+	os.system("clear")
+	print "\n\n[" + t.green("+") + "]Retrieved Threat Feed, formatting..."
+	time.sleep(1)
+			
+	response_h = json.loads(b. getvalue())
+	pprint(response_h)
+			
+	format = json.dumps(response_h, indent = 2)
+
+	with open('hosts.log', 'ab') as outfile:
+		outfile.write(format)
+		outfile.close()
+				
+	print "\n\nResults saved to 'hosts.log' in the current directory"
+
+def feed():
+	# Options for PyCurl
+	opts = ['X-HoneyDb-ApiId: ' + DB_API_ID, 'X-HoneyDb-ApiKey: ' + DB_API_KEY]
+	c.setopt(pycurl.HTTPHEADER, (opts))
+	c.setopt(pycurl.FOLLOWLOCATION, 1)
+			
+	c.setopt(pycurl.URL, "https://riskdiscovery.com/honeydb/api/twitter-threat-feed")
+	c.setopt(c.WRITEDATA, b)
+	c.perform()
+			
+	os.system("clear")
+	print "\n\n[" + t.green("+") + "]Retrieved Threat Feed, formatting..."
+	time.sleep(1)
+			
+	response_f = json.loads(b. getvalue())
+	pprint(response_f)
+			
+	format = json.dumps(response_f, indent = 2)
+
+	with open('feed.log', 'ab') as outfile:
+		outfile.write(format)
+		outfile.close()
+		
+	
+	print "\n\nResults saved to 'feed.log' in the current directory"
 
 try:
 	while True:
@@ -107,39 +157,10 @@ try:
 		option = raw_input("\n<" + t.cyan("MIMIR") + ">$ ")
 		
 		if option == '1':
-			c.setopt(pycurl.URL, "https://riskdiscovery.com/honeydb/api/twitter-threat-feed")
-			c.setopt(c.WRITEDATA, b)
-			c.perform()
-			
-			os.system("clear")
-			print "\n\n[" + t.green("+") + "]Retrieved Threat Feed, formatting..."
-			time.sleep(1)
-			
-			response = json.loads(b. getvalue())
-
-			with open('feed.log', 'ab') as outfile:
-				for item in response[0], remote_host:
-					outfile.write(item)
-					
-				outfile.close()
-			
-			print "Results saved to 'feed.log' in the current directory"
+			feed()
 			
 		elif option =='2':
-			c.setopt(pycurl.URL, "https://riskdiscovery.com/honeydb/api/bad-hosts")
-			c.setopt(c.WRITEDATA, b)
-			c.perform()
-			
-			response = json.loads(b. getvalue())
-			
-
-			with open('hosts.log', 'ab') as outfile:
-				for item in response[0], remote_host:
-					outfile.write(item)
-					
-				outfile.close()
-					
-			print "Results saved to 'hosts.log' in the current directory"
+			hosts()
 			
 		elif option == '3':
 			whois()
@@ -149,7 +170,7 @@ try:
 			try:
 				os.system("nmap -T4 -Pn --reason " + host)
 			except Exception as e:
-				print "/n[" + t.red("!") + "]Critical. An error was raised with the following message "
+				print "\n[" + t.red("!") + "]Critical. An error was raised with the following message "
 				print e
 				
 		elif option == '5':
@@ -178,7 +199,7 @@ try:
 			break
 			
 		else:
-			print "[" + t.red("!") + "]Unhandled Option."
+			print "\n[" + t.red("!") + "]Unhandled Option."
 
 except KeyboardInterrupt:
-	print "[" + t.red("!") + "]Critical. User aborted."			
+	print "\n\n[" + t.red("!") + "]Critical. User aborted."			
