@@ -1,10 +1,11 @@
 #!/usr/bin/env python2.7
 
-# Opted to use PyCurl instead of Mechanize, if your PyCurl does not support OpenSSL, see the shell script to rebuild it in the repo
 import pycurl
 import pickle
 import os.path, os, sys
 import time
+import StringIO
+import json
 
 from selenium import webdriver
 from blessings import Terminal
@@ -13,7 +14,7 @@ from pprint import pprint
 
 t = Terminal()
 c = pycurl.Curl()
-
+b = StringIO.StringIO()
 
 print t.cyan("""
 
@@ -26,6 +27,7 @@ o88o  8  o88o o888o o88o  8  o88o o888o o888o  88o8
 
 			    Threat Intel Interface
 						   \n""")
+
 
 # Check if we have API ID/key saved
 if not os.path.isfile("HDB-api-ID.p"):
@@ -59,7 +61,7 @@ else:
 	print "\n[" + t.green("+") + "]Your API ID was succesfully loaded from " + ID_path
 	print "[" + t.green("+") + "]Your API key was succesfully loaded from " + KEY_path
 	
-# WHOIS Function 
+# WHOIS function
 def whois():
 	print "[" + t.green("+") + "]Please provide an IP for WHOIS lookup."
 	TARGET = raw_input("\n<" + t.cyan("WHOIS") + ">$ ")
@@ -85,12 +87,11 @@ def whois():
 	else:
 		print "[" + t.red("!") + "]Unhandled Option.\n"
 
-# Set options for PyCurl
+# Options for PyCurl
 opts = ['X-HoneyDb-ApiId: ' + DB_API_ID, 'X-HoneyDb-ApiKey: ' + DB_API_KEY]
 c.setopt(pycurl.HTTPHEADER, (opts))
 c.setopt(pycurl.FOLLOWLOCATION, 1)
 
-# Menu
 try:
 	while True:
 
@@ -113,28 +114,11 @@ try:
 			print "\n\n[" + t.green("+") + "]Retrieved Threat Feed, formatting..."
 			time.sleep(1)
 			
-			# Working on formatting
-			outfile_one = open('feed.txt', 'wb')
-			c.setopt(c.WRITEDATA, outfile_one)
-			c.perform()
-			outfile_one.close()
+			response = json.dumps(b. getvalue())
+
+			print response
 			
-			infile = open('feed.txt', 'r')
-			#infile.read()
-			
-			str_obj = []
-			
-			for item in infile:
-				str_obj.append(item)
-			
-			format = []
-			for x in str_obj:
-				x.split(',')
-				str_obj.append(format)
-			
-			print format
-			
-			#print "Results saved to 'feed.log' in the current directory"
+			print "Results saved to 'feed.log' in the current directory"
 			
 		elif option =='2':
 			c.setopt(pycurl.URL, "https://riskdiscovery.com/honeydb/api/bad-hosts")
