@@ -29,5 +29,7 @@ And the Mozilla [Geckodriver](https://github.com/mozilla/geckodriver/releases)
 ## Note
 This is a BETA release. Please report any bugs [by opening a ticket](https://github.com/NullArray/Mimir/issues).
 
+Also, i am employing the PyCurl lib to retrieve the relevant data from HoneyDB, some versions of PyCurl work better with some versions of SSl than others. Should you find your version of PyCurl does not work with OpenSSL, please feel free to use the shellscript i have included in the repo to automatically rebuild PyCurl from source with OpenSSL support.
+
 Thanks.
 
