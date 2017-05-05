@@ -14,7 +14,7 @@ from pprint import pprint
 
 t = Terminal()
 c = pycurl.Curl()
-b = StringIO.StringIO()
+
 
 print t.cyan("""
 
@@ -91,21 +91,23 @@ def whois():
 		print "[" + t.red("!") + "]Unhandled Option.\n"
 
 def hosts():
+	a = StringIO.StringIO()
+	
 	# Options for PyCurl
 	opts = ['X-HoneyDb-ApiId: ' + DB_API_ID, 'X-HoneyDb-ApiKey: ' + DB_API_KEY]
 	c.setopt(pycurl.HTTPHEADER, (opts))
 	c.setopt(pycurl.FOLLOWLOCATION, 1)
 	
 	c.setopt(pycurl.URL, "https://riskdiscovery.com/honeydb/api/bad-hosts")
-	c.setopt(c.WRITEDATA, b)
+	c.setopt(c.WRITEDATA, a)
 	c.perform()
 			
 			
 	os.system("clear")
-	print "\n\n[" + t.green("+") + "]Retrieved Bad Host List, formatting..."
+	print "\n\n[" + t.green("+") + "]Retrieved Threat Feed, formatting..."
 	time.sleep(1)
 			
-	response_h = json.loads(b. getvalue())
+	response_h = json.loads(a. getvalue())
 	pprint(response_h)
 			
 	format = json.dumps(response_h, indent = 2)
@@ -117,6 +119,8 @@ def hosts():
 	print "\n\nResults saved to 'hosts.log' in the current directory"
 
 def feed():
+	b = StringIO.StringIO()
+	
 	# Options for PyCurl
 	opts = ['X-HoneyDb-ApiId: ' + DB_API_ID, 'X-HoneyDb-ApiKey: ' + DB_API_KEY]
 	c.setopt(pycurl.HTTPHEADER, (opts))
