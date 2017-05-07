@@ -93,7 +93,7 @@ echo "some other packages are available also now:"
 ls ../*.deb
 echo "they can be installed by 'sudo dpkg -i ../py...' from here."
 
-echo "Disable apt-get update for PyCurl from now on?"
+echo "\n\nDisable apt-get update for PyCurl from now on?"
 read -p 'Continue? Y/n : ' choice
 if [[ $choice == 'y' ]]; then
 	sudo apt-mark hold python-pycurl
