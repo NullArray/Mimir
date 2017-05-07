@@ -34,7 +34,7 @@ if "OpenSSL" not in pycurl.version:
 			os.system("chmod +x rebuild.sh")
 			os.system("./rebuild.sh")
 		except Exception as e:
-			print "\n[" + t.red("!") + "]Critical. An error was raised wgile attemting to invoke external utility"
+			print "\n[" + t.red("!") + "]Critical. An error was raised while attemting to invoke external utility"
 			print e
 			sys.exit(1)
 			
