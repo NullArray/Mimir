@@ -16,6 +16,42 @@ t = Terminal()
 c = pycurl.Curl()
 
 
+# Check if PyCurl version supports OpenSSL, if not, rebuild.
+if "OpenSSL" not in pycurl.version:
+	print "\n[" + t.red("!") + "]Warning! Heuristics indicate your verion of PyCurl does not support OpenSSL."
+		
+	print "[" + t.green("+") + "]Detected Pycurl version: " + pycurl.version
+	print "[" + t.green("+") + "]In order for Mimir to be able to connect to HoneyDB, OpenSSL is required."
+		
+	print "\n[" + t.magenta("?") + "]Would you like to automatically resolve this issue?"
+	rebuild = raw_input("[Y]es/[N]o: ")
+		
+	if rebuild == 'y':
+		print "\n[" + t.green("+") + "]Invoking 'rebuild.sh'...\n"
+		time.sleep(1.5)
+		
+		try:	
+			os.system("chmod +x rebuild.sh")
+			os.system("./rebuild.sh")
+		except Exception as e:
+			print "\n[" + t.red("!") + "]Critical. An error was raised wgile attemting to invoke external utility"
+			print e
+			sys.exit(1)
+			
+		print "\n[" + t.green("+") + "]PyCurl has been rebuilt with OpenSSL support. All systems nominal."
+		print "\n[" + t.green("+") + "]Mimir needs to be restarted for changes to take effect. Quitting..."
+		time.sleep(2.5)
+		sys.exit(1)
+			
+	elif rebuild == 'n':
+		print "\n[" + t.green("+") + "]Not resolving."
+		
+	else:
+		 print "\n[" + t.red("!") + "]Unhandled option. Quitting."
+		 sys.exit(1)
+
+			
+		
 print t.cyan("""
 
 oooo     oooo ooooo oooo     oooo ooooo oooooooooo  
@@ -100,8 +136,12 @@ def hosts():
 	
 	c.setopt(pycurl.URL, "https://riskdiscovery.com/honeydb/api/bad-hosts")
 	c.setopt(c.WRITEDATA, a)
-	c.perform()
-			
+	
+	try:
+		c.perform()
+	except Exception as e:
+		print "\n[" + t.red("!") + "]Critical. An error was raised with the following message"	
+		print e
 			
 	os.system("clear")
 	print "\n\n[" + t.green("+") + "]Retrieved Threat Feed, formatting..."
@@ -128,8 +168,13 @@ def feed():
 			
 	c.setopt(pycurl.URL, "https://riskdiscovery.com/honeydb/api/twitter-threat-feed")
 	c.setopt(c.WRITEDATA, b)
-	c.perform()
-			
+	
+	try:
+		c.perform()
+	except Exception as e:
+		print "\n[" + t.red("!") + "]Critical. An error was raised with the following message"	
+		print e
+		
 	os.system("clear")
 	print "\n\n[" + t.green("+") + "]Retrieved Threat Feed, formatting..."
 	time.sleep(1)
