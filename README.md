@@ -26,10 +26,7 @@ pprint
 
 And the Mozilla [Geckodriver](https://github.com/mozilla/geckodriver/releases)
 
-## Note
-This is a BETA release. Please report any bugs [by opening a ticket](https://github.com/NullArray/Mimir/issues).
+## Update
 
-Also, i am employing the PyCurl lib to retrieve the relevant data from HoneyDB, some versions of PyCurl work better with some versions of SSL than others. Should you find your version of PyCurl does not work with OpenSSL, please feel free to use the shellscript i have included in the repo to automatically rebuild PyCurl from source with OpenSSL support.
-
-Thanks.
+Some versions of PyCurl work better with some versions of SSL than others. This is important because HoneyDB makes use of OpenSSL and having a version that does not support it makes Mimir incompatible with honeyDB. To that end I have added some logic that lets Mimir detect your version of PyCurl and automatically rebuild it from source to a version that does support OpenSSL. It does so by invoking the `rebuild.sh` shell script that is included in this repo.
 
