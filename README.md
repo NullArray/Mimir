@@ -1,7 +1,7 @@
 # Mimir
 OSINT Threat Intel Interface - Named after the old Norse God of knowledge.
 
-Mimir functions as a CLI to [HoneyDB](https://riskdiscovery.com/honeydb/about) which in short is an OSINT aggragative threat intel pool. Starting the program brings you to a menu the options for which are as follows.
+Mimir functions as a CLI to [HoneyDB](https://riskdiscovery.com/honeydb/about) which in short is an OSINT aggregative threat intel pool. Starting the program brings you to a menu the options for which are as follows.
 
 ```
 1. Fetch Threat Feed        5. Visualize Top Malicious Hosts in Browser
