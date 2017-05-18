@@ -20,7 +20,7 @@ c = pycurl.Curl()
 if "OpenSSL" not in pycurl.version:
 	print "\n[" + t.red("!") + "]Warning! Heuristics indicate your verion of PyCurl does not support OpenSSL."
 		
-	print "[" + t.green("+") + "]Detected Pycurl version: " + pycurl.version
+	print "[" + t.green("+") + "]Detected PyCurl version: " + pycurl.version
 	print "[" + t.green("+") + "]In order for Mimir to be able to connect to HoneyDB, OpenSSL is required."
 		
 	print "\n[" + t.magenta("?") + "]Would you like to automatically resolve this issue?"
