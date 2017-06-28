@@ -24,7 +24,7 @@ ipwhois
 pprint
 ```
 
-And the Mozilla [Geckodriver](https://github.com/mozilla/geckodriver/releases)
+[Nmap](https://nmap.org/) and the Mozilla [Geckodriver](https://github.com/mozilla/geckodriver/releases)
 
 ## Update
 
