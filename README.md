@@ -28,5 +28,5 @@ pprint
 
 ## Update
 
-Some versions of PyCurl work better with some versions of SSL than others. This is important because HoneyDB makes use of OpenSSL and having a version that does not support it makes Mimir incompatible with honeyDB. To that end I have added some logic that lets Mimir detect your version of PyCurl and automatically rebuild it from source to a version that does support OpenSSL. It does so by invoking the `rebuild.sh` shell script that is included in this repo.
+Some versions of PyCurl work better with some versions of SSL than others. This is important because HoneyDB makes use of OpenSSL and having a version that does not support it makes Mimir incompatible with HoneyDB. To that end I have added some logic that lets Mimir detect your version of PyCurl and automatically rebuild it from source to a version that does support OpenSSL. It does so by invoking the `rebuild.sh` shell script that is included in this repo.
 
