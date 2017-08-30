@@ -1,0 +1,4 @@
+blessings==1.6
+selenium==3.4.1
+ipwhois==0.15.1
+pycurl==7.43.0
