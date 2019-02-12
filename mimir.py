@@ -24,7 +24,7 @@ if "OpenSSL" not in pycurl.version:
 	print "[" + t.green("+") + "]In order for Mimir to be able to connect to HoneyDB, OpenSSL is required."
 		
 	print "\n[" + t.magenta("?") + "]Would you like to automatically resolve this issue?"
-	rebuild = raw_input("[Y]es/[N]o: ")
+	rebuild = raw_input("[Y]es/[N]o: ").lower()
 		
 	if rebuild == 'y':
 		print "\n[" + t.green("+") + "]Invoking 'rebuild.sh'...\n"
@@ -108,7 +108,7 @@ def whois():
 	pprint(results)
 	
 	print "\n[" + t.magenta("?") + "]Would you like to append the WHOIS record to a text file?\n"
-	logs = raw_input("[Y]es/[N]o: ")
+	logs = raw_input("[Y]es/[N]o: ").lower()
 	
 	format = json.dumps(results, indent = 2)
 	
